@@ -1,8 +1,8 @@
 SELECT TO_CHAR(st.ts, 'yyyy-mm') AS month, COUNT(DISTINCT usc.userid) mau
 FROM raw_data.user_session_channel AS usc
 JOIN raw_data.session_timestamp AS st ON usc.sessionid = st.sessionid
-GROUP BY mu.month
-ORDER BY mu.month;
+GROUP BY month
+ORDER BY month;
 
 -- Result
 -- 2019-05	281
