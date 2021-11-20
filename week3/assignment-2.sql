@@ -1,3 +1,5 @@
+-- week3, assignment-2
+
 WITH last_tb AS (
   SELECT tb.userid, tb.channel
   FROM (
@@ -18,7 +20,7 @@ JOIN last_tb lt ON tb.userid = lt.userid
 WHERE 1=1
   and tb.seq = 1;
 
-
+-- RESULT
 -- 2738	Youtube	Naver
 -- 2744	Organic	Organic
 -- 2746	Organic	Google
