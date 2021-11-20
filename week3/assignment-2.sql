@@ -8,7 +8,7 @@ WITH last_tb AS (
   WHERE 1=1
     and tb.seq = 1  
 )
-SELECT tb.userid, tb.channel, lt.channel
+SELECT tb.userid, tb.channel first_channel, lt.channel last_channel
 FROM (
   SELECT userid, ts, channel, ROW_NUMBER() OVER (partition by userid order by ts ASC) seq
   FROM raw_data.user_session_channel usc
