@@ -3,9 +3,9 @@ import psycopg2
 
 # Redshift connection 함수
 def get_Redshift_connection():
-    host = "learnde.cduaw970ssvt.ap-northeast-2.redshift.amazonaws.com"
-    redshift_user = "kyle_oh95"
-    redshift_pass = "Kyle_Oh95!1"
+    host = "redacted"
+    redshift_user = "redacted"
+    redshift_pass = "redacted"
     port = 5439
     dbname = "dev"
     conn = psycopg2.connect("dbname={dbname} user={user} host={host} password={password} port={port}".format(
