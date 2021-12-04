@@ -49,3 +49,36 @@ DELETE 문만 먼저 실행되고, INSERT INTO가 무조건 실패하도록 정�
 autocommit=True인 동안에는 INSERT가 실패하더라도 DELETE는 무조건 성공해서 데이터가 없는 결과가 나왔지만
 autocommit=False로 설정하고 conn.commit()을 수동으로 처리해주니, INSERT가 실패하면 DELETE도 실패하도록 잘 처리 되었습니다.
 '''
+
+# 모범 사례
+
+# Redshift connection 함수
+def get_Redshift_connection():
+    host = "learnde.cduaw970ssvt.ap-northeast-2.redshift.amazonaws.com"
+    redshift_user = "kyle_oh95"
+    redshift_pass = "Kyle_Oh95!1"
+    port = 5439
+    dbname = "dev"
+    conn = psycopg2.connect("dbname={dbname} user={user} host={host} password={password} port={port}".format(
+        dbname=dbname,
+        user=redshift_user,
+        password=redshift_pass,
+        host=host,
+        port=port
+    ))
+    conn.set_session(autocommit=True)
+    return conn.cursor()
+
+def load(lines):
+    # BEGIN과 END를 사용해서 SQL 결과를 트랜잭션으로 만들어주는 것이 좋음
+    # BEGIN;DELETE FROM (본인의스키마).name_gender;INSERT INTO TABLE VALUES ('kyle_oh95', 'MALE');....;END;
+    cur = get_Redshift_connection()
+    delete_sql = "BEGIN;DELETE FROM kyle_oh95.name_gender;"
+    for r in lines:
+        if r != '':
+            (name, gender) = r.split(",")
+            print(name, "-", gender)
+            sql = "INSERT INTO kyle_oh95.name_gender VALUES ('{n}', '{g}');".format(n=name, g=gender)
+            print(sql)
+    sql += "END;"
+    cur.execute(sql)
