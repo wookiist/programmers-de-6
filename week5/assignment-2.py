@@ -85,6 +85,8 @@ def load_stage3(**context):
     logging.info(sql)
     cur.execute(sql)
 
+# INSERT INTO keeyong.weather_forecast SELECT date, temp, min_temp, max_temp, created_date FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY date ORDER BY created_date DESC) seq FROM keeyong.temp_weather_forecast) WHERE seq = 1;
+
 
 dag_daily_weather = DAG(
     dag_id = 'daily_weather',
